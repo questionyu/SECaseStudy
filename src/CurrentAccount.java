@@ -1,4 +1,4 @@
-public class CurrentAccount extends BankAccount {
+class CurrentAccount extends BankAccount {
 	private double overdraftLimit;
 
 	CurrentAccount(int accNo, String accName) {
