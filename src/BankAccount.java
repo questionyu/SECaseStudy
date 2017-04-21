@@ -3,47 +3,47 @@ public class BankAccount {
 	private String accName;
 	private double balance;
 
-	public BankAccount(int accNo, String accName) {
+	BankAccount(int accNo, String accName) {
 		this.accNo = accNo;
 		this.accName = accName;
 		this.balance = 0.0;
 	}
 
-	public BankAccount(String accName, int accNo) {
+	BankAccount(String accName, int accNo) {
 		this.accNo = accNo;
 		this.accName = accName;
 		this.balance = 0.0;
 	}
 
-	public int getAccNo() {
+	int getAccNo() {
 		return accNo;
 	}
 
-	public String getAccName() {
+	String getAccName() {
 		return accName;
 	}
 
-	public void setAccName(String accName) {
+	void setAccName(String accName) {
 		this.accName = accName;
 	}
 
-	public double getBalance() {
+	double getBalance() {
 		return balance;
 	}
 
-	public void deposit(double amount) {
+	void deposit(double amount) {
 		balance = balance + amount;
 		System.out.println("Deposit " + amount + " successful");
 	}
 
-	public void withdraw(double amount) {
+	void withdraw(double amount) {
 		if (check(amount)) {
 			balance = balance - amount;
 			System.out.println("Withdraw " + amount + " successfull.");
 		}
 	}
 
-	protected boolean check(double amount) {
+	boolean check(double amount) {
 		boolean allowed = false;
 		if (balance - amount >= 0) {
 			allowed = true;

@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class Bank {
+class Bank {
 	private ArrayList<BankAccount> bank = new ArrayList<>();
 
 	void openAccount(BankAccount b) {
 		bank.add(b);
 	}
 
-	public void closeAccount(BankAccount b) {
+	void closeAccount(BankAccount b) {
 		bank.remove(b);
 	}
 
