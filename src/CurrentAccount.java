@@ -1,19 +1,14 @@
 class CurrentAccount extends BankAccount {
 	private double overdraftLimit;
 
-	CurrentAccount(int accNo, String accName) {
-		super(accNo, accName);
+	CurrentAccount(double initBalance, String name, String address, int birth) {
+		super(initBalance, name, address, birth);
 		overdraftLimit = 500;
 	}
 
-	CurrentAccount(String accName, int accNo) {
-		super(accName, accNo);
-		overdraftLimit = 500;
-	}
-
-	CurrentAccount(int accNo, String accName, double overdraftLimit) {
-		super(accNo, accName);
-		this.setOverdraftLimit(overdraftLimit);
+	CurrentAccount(double initBalance, String name, String address, int birth, double overdraftLimit) {
+		super(initBalance, name, address, birth);
+		this.overdraftLimit = overdraftLimit;
 	}
 
 	double getOverdraftLimit() {

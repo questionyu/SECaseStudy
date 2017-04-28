@@ -1,30 +1,31 @@
-class BankAccount {
-	private int accNo;
-	private String accName;
+abstract class BankAccount {
+	private int no;
+	private String name;
 	private double balance;
+	private String address;
+	private int birth;
 
-	BankAccount(int accNo, String accName) {
-		this.accNo = accNo;
-		this.accName = accName;
-		this.balance = 0.0;
+	private String PIN;
+
+	BankAccount(double initBalance, String name, String address, int birth) {
+		this.no = 10000000 + (int) (Math.random() * 9000000);
+		this.balance = initBalance;
+		this.name = name;
+		this.address = address;
+		this.birth = birth;
+
 	}
 
-	BankAccount(String accName, int accNo) {
-		this.accNo = accNo;
-		this.accName = accName;
-		this.balance = 0.0;
+	int getNo() {
+		return no;
 	}
 
-	int getAccNo() {
-		return accNo;
+	String getName() {
+		return name;
 	}
 
-	String getAccName() {
-		return accName;
-	}
-
-	void setAccName(String accName) {
-		this.accName = accName;
+	void setName(String name) {
+		this.name = name;
 	}
 
 	double getBalance() {
@@ -33,13 +34,13 @@ class BankAccount {
 
 	void deposit(double amount) {
 		balance = balance + amount;
-		System.out.println("Deposit " + amount + " successful");
+		System.out.println("Deposit " + amount + " successfully");
 	}
 
 	void withdraw(double amount) {
 		if (check(amount)) {
 			balance = balance - amount;
-			System.out.println("Withdraw " + amount + " successfull.");
+			System.out.println("Withdraw " + amount + " successfully.");
 		}
 	}
 
@@ -48,15 +49,10 @@ class BankAccount {
 		if (balance - amount >= 0) {
 			allowed = true;
 		} else {
-			System.out.println("Withdraw " + amount
-					+ " unsuccessfull. Do not have enough available funds.");
+			System.out.println("Withdraw " + amount	+ " unsuccessfully. Do not have enough available funds.");
 		}
 		return allowed;
 	}
 
-	public String toString() {
-		return "Account number: " + accNo + "\n" + "Account name: " + accName
-				+ "\n" + "Balance: " + balance + "\n";
-	}
 
 }
