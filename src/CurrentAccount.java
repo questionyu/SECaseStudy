@@ -1,10 +1,9 @@
+/**
+ * Title        CurrentAccount.java
+ * Description
+ */
 class CurrentAccount extends BankAccount {
 	private double overdraftLimit;
-
-	CurrentAccount(double initBalance, String name, String address, int birth) {
-		super(initBalance, name, address, birth);
-		overdraftLimit = 500;
-	}
 
 	CurrentAccount(double initBalance, String name, String address, int birth, double overdraftLimit) {
 		super(initBalance, name, address, birth);
@@ -21,13 +20,6 @@ class CurrentAccount extends BankAccount {
 
 	@Override
 	boolean check(double amount) {
-		boolean allowed = false;
-		if (this.getBalance() - amount >= -overdraftLimit) {
-			allowed = true;
-		} else {
-			System.out.println("Withdraw " + amount
-					+ " unsuccessfull. Do not have enough available funds.");
-		}
-		return allowed;
+		return (this.getBalance() - amount >= -overdraftLimit);
 	}
 }

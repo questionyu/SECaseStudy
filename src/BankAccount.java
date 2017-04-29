@@ -1,3 +1,7 @@
+/**
+ * Title        BankAccount.java
+ * Description
+ */
 abstract class BankAccount {
 	private int no;
 	private String name;
@@ -7,17 +11,26 @@ abstract class BankAccount {
 
 	private String PIN;
 
-	BankAccount(double initBalance, String name, String address, int birth) {
-		this.no = 10000000 + (int) (Math.random() * 9000000);
+	BankAccount(double initBalance, String name, String address, int birth) throws CreditHistoryException {
+		this.no = getRandomNo();
 		this.balance = initBalance;
 		this.name = name;
 		this.address = address;
 		this.birth = birth;
+		if (CreditAgency.checkCreditHistory(name))
+			throw new CreditHistoryException();
+	}
 
+	int getRandomNo() {
+		return 10000000 + (int) (Math.random() * 9000000);
 	}
 
 	int getNo() {
 		return no;
+	}
+
+	void setNo(int no) {
+		this.no = no;
 	}
 
 	String getName() {
@@ -41,17 +54,13 @@ abstract class BankAccount {
 		if (check(amount)) {
 			balance = balance - amount;
 			System.out.println("Withdraw " + amount + " successfully.");
+		} else {
+			System.out.println("Withdraw " + amount + " unsuccessfully. Do not have enough available funds.");
 		}
 	}
 
 	boolean check(double amount) {
-		boolean allowed = false;
-		if (balance - amount >= 0) {
-			allowed = true;
-		} else {
-			System.out.println("Withdraw " + amount	+ " unsuccessfully. Do not have enough available funds.");
-		}
-		return allowed;
+		return (balance - amount >= 0);
 	}
 
 
