@@ -5,8 +5,8 @@
 class CreditAgency {
 	/**
 	 * This function gives 10% false and gives 90% true.
-	 * False: Credit history is bad.
-	 * True: Credit history is good.
+	 * False: Credit history is good.
+	 * True: Credit history is bad.
 	 *
 	 * @param accountName The user's name.
 	 * @return Boolean variable.
