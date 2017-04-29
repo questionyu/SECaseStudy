@@ -2,11 +2,11 @@
  * Title        IllegalPINException.java
  * Description
  */
-public class IllegalPINException extends RuntimeException {
-	public IllegalPINException() {
+class IllegalPINException extends RuntimeException {
+	IllegalPINException() {
 	}
 
-	public IllegalPINException(String message) {
+	IllegalPINException(String message) {
 		super(message);
 	}
 }
