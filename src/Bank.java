@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * Title        Bank.java
+ * Description
+ */
 class Bank {
 	private ArrayList<BankAccount> bankAccounts = new ArrayList<>();
 
@@ -11,18 +15,68 @@ class Bank {
 		return false;
 	}
 
-	void openAccount(BankAccount newAccount) {
-		bankAccounts.add(newAccount);
+	SaverAccount openSaverAccount(double initBalance, String name, String address, int birth) {
+		try {
+			SaverAccount acc = new SaverAccount(initBalance, name, address, birth);
+			while (checkDuplicated(acc)) {
+				acc.setRandomNo();
+			}
+			bankAccounts.add(acc);
+			return acc;
+		} catch (CreditHistoryException e) {
+			System.out.println("This user's credit history is bad. Can not open a new account.");
+		}
+		return null;
+	}
+
+	JuniorAccount openJuniorAccount(double initBalance, String name, String address, int birth, int age) {
+		try {
+			JuniorAccount acc = new JuniorAccount(initBalance, name, address, birth, age);
+			while (checkDuplicated(acc)) {
+				acc.setRandomNo();
+			}
+			bankAccounts.add(acc);
+			return acc;
+		} catch (CreditHistoryException e) {
+			System.out.println("This user's credit history is bad. Can not open a new account.");
+		} catch (IllegalAgeException e) {
+			System.out.println("Age > 16 can not open junior account.");
+		}
+		return null;
+	}
+
+	CurrentAccount openCurrentAccount(double initBalance, String name, String address, int birth) {
+		return openCurrentAccount(initBalance, name, address, birth, 500);
+	}
+
+	CurrentAccount openCurrentAccount(double initBalance, String name, String address, int birth, double overdraftLimit) {
+		try {
+			CurrentAccount acc = new CurrentAccount(initBalance, name, address, birth, overdraftLimit);
+			while (checkDuplicated(acc)) {
+				acc.setRandomNo();
+			}
+			bankAccounts.add(acc);
+			return acc;
+		} catch (CreditHistoryException e) {
+			System.out.println("This user's credit history is bad. Can not open a new account.");
+		}
+		return null;
 	}
 
 	void closeAccount(BankAccount b) {
 		bankAccounts.remove(b);
 	}
 
+	void clearFunds() {
+		for (BankAccount acc : bankAccounts) {
+			acc.clearFunds();
+		}
+	}
+
 	void update() {
-		for (BankAccount b : bankAccounts) {
-			if (b.getBalance() < 0) {
-				System.out.println(b.getName() + " is in overdraft, a letter is sent");
+		for (BankAccount acc : bankAccounts) {
+			if (acc.getBalance() < 0) {
+				System.out.println(acc.getName() + " is in overdraft, a letter is sent");
 			}
 		}
 	}
