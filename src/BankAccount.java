@@ -31,7 +31,7 @@ abstract class BankAccount {
 	}
 
 	void setRandomNo() {
-		this.no = 10000000 + (int) (Math.random() * 90000000);
+		no = 10000000 + (int) (Math.random() * 90000000);
 	}
 
 	String getName() {
@@ -44,6 +44,10 @@ abstract class BankAccount {
 
 	double getBalance() {
 		return balance;
+	}
+
+	void addBalance(double amount) {
+		balance += amount;
 	}
 
 	String getAddress() {
@@ -98,11 +102,11 @@ abstract class BankAccount {
 	}
 
 	void suspend() {
-		this.isSuspended = true;
+		isSuspended = true;
 	}
 
 	void reinstated() {
-		this.isSuspended = false;
+		isSuspended = false;
 	}
 
 	boolean check(double amount) {
@@ -120,5 +124,13 @@ abstract class BankAccount {
 
 	void setCheque(double cheque) {
 		this.cheque = cheque;
+	}
+
+	void preWithdraw(double amount) {
+		System.out.println("Your account is not saver account.");
+	}
+
+	void setOverdraftLimit(double overdraftLimit) {
+		System.out.println("Your account is not current account.");
 	}
 }
