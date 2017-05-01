@@ -7,7 +7,7 @@ class CurrentAccount extends BankAccount {
 
 	CurrentAccount(double initBalance, String name, String address, int birth, double overdraftLimit) {
 		super(initBalance, name, address, birth);
-		this.overdraftLimit = overdraftLimit;
+		setOverdraftLimit(overdraftLimit);
 	}
 
 	double getOverdraftLimit() {

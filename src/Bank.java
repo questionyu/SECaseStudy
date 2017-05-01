@@ -63,18 +63,17 @@ class Bank {
 		return null;
 	}
 
-	void closeAccount(BankAccount b) {
-		bankAccounts.remove(b);
-	}
-
-	void clearFunds() {
-		for (BankAccount acc : bankAccounts) {
-			acc.clearFunds();
+	void closeAccount(BankAccount acc) {
+		if (acc.getBalance() != 0) {
+			System.out.println("The balance is not cleared.");
+			return;
 		}
+		bankAccounts.remove(acc);
 	}
 
 	void update() {
 		for (BankAccount acc : bankAccounts) {
+			acc.clearFunds();
 			if (acc.getBalance() < 0) {
 				System.out.println(acc.getName() + " is in overdraft, a letter is sent");
 			}

@@ -11,6 +11,7 @@ abstract class BankAccount {
 	private int birth;
 
 	private String PIN;
+	private boolean isSuspended;
 
 	BankAccount(double initBalance, String name, String address, int birth) throws CreditHistoryException {
 		setRandomNo();
@@ -22,6 +23,7 @@ abstract class BankAccount {
 		if (CreditAgency.checkCreditHistory(name))
 			throw new CreditHistoryException();
 		this.PIN = getRandomPIN(6);
+		this.isSuspended = false;
 	}
 
 	int getNo() {
@@ -44,6 +46,10 @@ abstract class BankAccount {
 		return balance;
 	}
 
+	String getAddress() {
+		return address;
+	}
+
 	void setAddress(String address) {
 		this.address = address;
 	}
@@ -57,30 +63,62 @@ abstract class BankAccount {
 	}
 
 	void deposit(double amount) {
+		if (isSuspended()) {
+			System.out.println("Account is suspended.");
+			return;
+		}
 		balance += amount;
 		System.out.println("Deposit " + amount + " successfully");
 	}
 
 	void depositCheque(double amount) {
+		if (isSuspended()) {
+			System.out.println("Account is suspended.");
+			return;
+		}
 		cheque += amount;
 		System.out.println("Deposit cheque " + amount + " successfully");
 	}
 
 	void withdraw(double amount) {
+		if (isSuspended()) {
+			System.out.println("Account is suspended.");
+			return;
+		}
 		if (check(amount)) {
-			balance = balance - amount;
+			balance -= amount;
 			System.out.println("Withdraw " + amount + " successfully.");
 		} else {
 			System.out.println("Withdraw " + amount + " unsuccessfully. Do not have enough available funds.");
 		}
 	}
 
+	boolean isSuspended() {
+		return isSuspended;
+	}
+
+	void suspend() {
+		this.isSuspended = true;
+	}
+
+	void reinstated() {
+		this.isSuspended = false;
+	}
+
 	boolean check(double amount) {
-		return (balance - amount >= 0);
+		return (balance >= amount);
 	}
 
 	void clearFunds() {
 		balance += cheque;
 		cheque = 0;
+	}
+
+	double getCheque() {
+		return cheque;
+	}
+
+	void setCheque(double cheque) {
+		this.cheque = cheque;
 	}
 }
