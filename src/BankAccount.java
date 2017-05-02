@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 /**
  * Title        BankAccount.java
  * Description
@@ -8,12 +10,12 @@ abstract class BankAccount {
 	private double balance;
 	private double cheque;
 	private String address;
-	private int birth;
+	private Calendar birth;
 
 	private String PIN;
 	private boolean isSuspended;
 
-	BankAccount(double initBalance, String name, String address, int birth) throws CreditHistoryException {
+	BankAccount(double initBalance, String name, String address, Calendar birth) throws CreditHistoryException {
 		setRandomNo();
 		this.balance = initBalance;
 		this.cheque = 0;
@@ -40,6 +42,10 @@ abstract class BankAccount {
 
 	void setName(String name) {
 		this.name = name;
+	}
+
+	Calendar getBirth() {
+		return birth;
 	}
 
 	double getBalance() {

@@ -1,14 +1,17 @@
+import java.util.Calendar;
+
 /**
  * Title        JuniorAccount.java
  * Description
  */
 class JuniorAccount extends BankAccount {
-	private int age;
+	public static final int ageLimit = 16;
 
-	JuniorAccount(double initBalance, String name, String address, int birth, int age) throws IllegalAgeException {
+	JuniorAccount(double initBalance, String name, String address, Calendar birth) throws IllegalAgeException {
 		super(initBalance, name, address, birth);
-		if (age > 16)
+		Calendar rightNow = Calendar.getInstance();
+		birth.add(Calendar.YEAR, ageLimit);
+		if (rightNow.after(birth))
 			throw new IllegalAgeException();
-		this.age = age;
 	}
 }

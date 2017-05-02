@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Title        Bank.java
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 class Bank {
 	private ArrayList<BankAccount> bankAccounts = new ArrayList<>();
 
-	boolean checkDuplicated(BankAccount newAccount) {
+	private boolean checkDuplicated(BankAccount newAccount) {
 		for (BankAccount i : bankAccounts) {
 			if (i.getNo() == newAccount.getNo())
 				return true;
@@ -15,13 +16,14 @@ class Bank {
 		return false;
 	}
 
-	SaverAccount openSaverAccount(double initBalance, String name, String address, int birth) {
+	SaverAccount openSaverAccount(double initBalance, String name, String address, Calendar birth) {
 		try {
 			SaverAccount acc = new SaverAccount(initBalance, name, address, birth);
 			while (checkDuplicated(acc)) {
 				acc.setRandomNo();
 			}
 			bankAccounts.add(acc);
+			System.out.println("Open account successfully.");
 			return acc;
 		} catch (CreditHistoryException e) {
 			System.out.println("This user's credit history is bad. Can not open a new account.");
@@ -29,13 +31,14 @@ class Bank {
 		return null;
 	}
 
-	JuniorAccount openJuniorAccount(double initBalance, String name, String address, int birth, int age) {
+	JuniorAccount openJuniorAccount(double initBalance, String name, String address, Calendar birth) {
 		try {
-			JuniorAccount acc = new JuniorAccount(initBalance, name, address, birth, age);
+			JuniorAccount acc = new JuniorAccount(initBalance, name, address, birth);
 			while (checkDuplicated(acc)) {
 				acc.setRandomNo();
 			}
 			bankAccounts.add(acc);
+			System.out.println("Open account successfully.");
 			return acc;
 		} catch (CreditHistoryException e) {
 			System.out.println("This user's credit history is bad. Can not open a new account.");
@@ -45,17 +48,18 @@ class Bank {
 		return null;
 	}
 
-	CurrentAccount openCurrentAccount(double initBalance, String name, String address, int birth) {
+	CurrentAccount openCurrentAccount(double initBalance, String name, String address, Calendar birth) {
 		return openCurrentAccount(initBalance, name, address, birth, 500);
 	}
 
-	CurrentAccount openCurrentAccount(double initBalance, String name, String address, int birth, double overdraftLimit) {
+	CurrentAccount openCurrentAccount(double initBalance, String name, String address, Calendar birth, double overdraftLimit) {
 		try {
 			CurrentAccount acc = new CurrentAccount(initBalance, name, address, birth, overdraftLimit);
 			while (checkDuplicated(acc)) {
 				acc.setRandomNo();
 			}
 			bankAccounts.add(acc);
+			System.out.println("Open account successfully.");
 			return acc;
 		} catch (CreditHistoryException e) {
 			System.out.println("This user's credit history is bad. Can not open a new account.");

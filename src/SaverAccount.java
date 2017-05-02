@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 /**
  * Title        SaverAccount.java
  * Description
@@ -6,7 +8,7 @@ class SaverAccount extends BankAccount {
 	private double saverBalance;
 	private double preWithdraw;
 
-	SaverAccount(double initBalance, String name, String address, int birth) {
+	SaverAccount(double initBalance, String name, String address, Calendar birth) {
 		super(0, name, address, birth);
 		this.saverBalance = initBalance;
 		this.preWithdraw = 0;

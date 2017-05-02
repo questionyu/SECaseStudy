@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 /**
  * Title        CurrentAccount.java
  * Description
@@ -5,7 +7,7 @@
 class CurrentAccount extends BankAccount {
 	private double overdraftLimit;
 
-	CurrentAccount(double initBalance, String name, String address, int birth, double overdraftLimit) {
+	CurrentAccount(double initBalance, String name, String address, Calendar birth, double overdraftLimit) {
 		super(initBalance, name, address, birth);
 		setOverdraftLimit(overdraftLimit);
 	}
