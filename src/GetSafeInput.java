@@ -43,8 +43,22 @@ abstract class GetSafeInput {
 	 * @return If the parameter is an int, return true. Vice versa.
 	 */
 	private static boolean isInteger(String s) {
-		Pattern pattern = Pattern.compile("\\d+");
+		Pattern pattern = Pattern.compile("-?\\d+");
 		return pattern.matcher(s).matches();
+	}
+
+	/**
+	 * This function gets a positive double from console.
+	 *
+	 * @param sc Scanner
+	 * @return The positive double from console.
+	 */
+	static double getPositiveDouble(Scanner sc) {
+		double positiveDouble;
+		while ((positiveDouble = getDouble(sc)) <= 0) {
+			System.out.println("Input wrong, please retype:");
+		}
+		return positiveDouble;
 	}
 
 	/**
@@ -69,7 +83,7 @@ abstract class GetSafeInput {
 	 * @return If the parameter is a double, return true. Vice versa.
 	 */
 	private static boolean isDouble(String s) {
-		Pattern pattern = Pattern.compile("\\d+(\\.?)\\d*");
+		Pattern pattern = Pattern.compile("-?\\d+\\.?\\d*");
 		return pattern.matcher(s).matches();
 	}
 
