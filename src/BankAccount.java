@@ -168,6 +168,7 @@ abstract class BankAccount {
 	void deposit(double amount) {
 		if (isSuspended()) {
 			System.out.println("Account is suspended.");
+			System.out.println("Depositing failed.");
 			return;
 		}
 		balance += amount;
