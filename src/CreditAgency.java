@@ -8,10 +8,10 @@ class CreditAgency {
 	 * False: Credit history is good.
 	 * True: Credit history is bad.
 	 *
-	 * @param accountName The user's name.
+	 * @param customer The user.
 	 * @return Boolean variable.
 	 */
-	static boolean checkCreditHistory(String accountName) {
+	static boolean checkCreditHistory(Customer customer) {
 		return (Math.random() < 0.1);
 	}
 }
