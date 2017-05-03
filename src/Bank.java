@@ -101,8 +101,8 @@ class Bank {
 	/**
 	 * This function opens a current account.
 	 *
-	 * @param initBalance Initial balance.
-	 * @param customer The customer who wants to open an account.
+	 * @param initBalance    Initial balance.
+	 * @param customer       The customer who wants to open an account.
 	 * @param overdraftLimit The overdraft limit.
 	 * @return If open successfully, returns account. If fails, return null.
 	 */
