@@ -26,6 +26,16 @@ class SaverAccount extends BankAccount {
 	}
 
 	/**
+	 * This function provides the balance information of this account.
+	 */
+	@Override
+	void checkBalance() {
+		super.checkBalance();
+		System.out.println("Account saver balance: " + saverBalance);
+		System.out.println("Account pre-withdraw: " + preWithdraw);
+	}
+
+	/**
 	 * This function pre-withdraw a mount of cash from special balance.
 	 * And wait for clearFunds of Bank to save pre-withdraw-amount to generic balance.
 	 * Before pre-withdrawing, this function checks if the account is suspended.
@@ -71,7 +81,7 @@ class SaverAccount extends BankAccount {
 	 * @param amount The amount you want to deposit.
 	 */
 	@Override
-	void deposit(double amount) {
+	void depositByCash(double amount) {
 		if (isSuspended()) {
 			System.out.println("Account is suspended.");
 			System.out.println("Depositing failed.");

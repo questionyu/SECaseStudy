@@ -28,10 +28,10 @@ abstract class GetSafeInput {
 	 * @return The int from console.
 	 */
 	static int getInt(Scanner sc) {
-		String inputs = sc.next();
+		String inputs = sc.nextLine();
 		while (!isInteger(inputs)) {
 			System.out.println("Input wrong, please retype:");
-			inputs = sc.next();
+			inputs = sc.nextLine();
 		}
 		return Integer.parseInt(inputs);
 	}
@@ -68,10 +68,10 @@ abstract class GetSafeInput {
 	 * @return The double from console.
 	 */
 	static double getDouble(Scanner sc) {
-		String inputs = sc.next();
+		String inputs = sc.nextLine();
 		while (!isDouble(inputs)) {
 			System.out.println("Input wrong, please retype:");
-			inputs = sc.next();
+			inputs = sc.nextLine();
 		}
 		return Double.parseDouble(inputs);
 	}
@@ -94,7 +94,7 @@ abstract class GetSafeInput {
 	 * @return The string from console.
 	 */
 	static String getString(Scanner sc) {
-		return sc.next();
+		return sc.nextLine();
 	}
 
 	/**
@@ -105,10 +105,10 @@ abstract class GetSafeInput {
 	 */
 	static Calendar getCalendar(Scanner sc) {
 		Calendar inputCalendar = Calendar.getInstance();
-		String inputs = sc.next();
+		String inputs = sc.nextLine();
 		while (!isCalendar(inputs)) {
 			System.out.println("Input wrong, please retype:");
-			inputs = sc.next();
+			inputs = sc.nextLine();
 		}
 		String[] get = inputs.split("-");
 		inputCalendar.set(Integer.parseInt(get[0]), Integer.parseInt(get[1]) - 1, Integer.parseInt(get[2]));
@@ -117,12 +117,16 @@ abstract class GetSafeInput {
 
 	/**
 	 * This function judges the parameter is or not a calendar.
+	 * This function matches:
+	 * 1996-02-29 1996-2-29 1996-2-2
+	 * does not match:
+	 * 1996-02-30 1996-2-31 1995-2-29 1995-2-0
 	 *
 	 * @param s The string which need to be judged.
 	 * @return If the parameter is a calendar, return true. Vice versa.
 	 */
 	private static boolean isCalendar(String s) {
-		Pattern pattern = Pattern.compile("(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]|[0-9][1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[13579][26])00))-02-29)");
+		Pattern pattern = Pattern.compile("(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]|[0-9][1-9][0-9]{2}|[1-9][0-9]{3})-(((0?[13578]|1[02])-(0?[1-9]|[12][0-9]|3[01]))|((0?[469]|11)-(0?[1-9]|[12][0-9]|30))|(0?2-(0?[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[13579][26])00))-0?2-29)");
 		return pattern.matcher(s).matches();
 	}
 }

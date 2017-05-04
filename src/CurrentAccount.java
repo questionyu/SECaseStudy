@@ -21,6 +21,15 @@ class CurrentAccount extends BankAccount {
 	}
 
 	/**
+	 * This function provides the balance information of this account.
+	 */
+	@Override
+	void checkBalance() {
+		super.checkBalance();
+		System.out.println("Account overdraft limit: " + overdraftLimit);
+	}
+
+	/**
 	 * This function returns the overdraft limit in a double.
 	 *
 	 * @return The overdraft limit.

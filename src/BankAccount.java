@@ -165,9 +165,14 @@ abstract class BankAccount {
 	 *
 	 * @param amount The amount you want to deposit.
 	 */
-	void deposit(double amount) {
+	void depositByCash(double amount) {
 		if (isSuspended()) {
 			System.out.println("Account is suspended.");
+			System.out.println("Depositing failed.");
+			return;
+		}
+		if (amount <= 0) {
+			System.out.println("Amount must be more than 0.");
 			System.out.println("Depositing failed.");
 			return;
 		}
@@ -183,9 +188,14 @@ abstract class BankAccount {
 	 *
 	 * @param amount The amount you want to deposit.
 	 */
-	void depositCheque(double amount) {
+	void depositByCheque(double amount) {
 		if (isSuspended()) {
 			System.out.println("Account is suspended.");
+			return;
+		}
+		if (amount <= 0) {
+			System.out.println("Amount must be more than 0.");
+			System.out.println("Depositing failed.");
 			return;
 		}
 		cheque += amount;
@@ -206,6 +216,11 @@ abstract class BankAccount {
 	void withdraw(double amount) {
 		if (isSuspended()) {
 			System.out.println("Account is suspended.");
+			return;
+		}
+		if (amount <= 0) {
+			System.out.println("Amount must be more than 0.");
+			System.out.println("Depositing failed.");
 			return;
 		}
 		if (check(amount)) {
@@ -235,7 +250,7 @@ abstract class BankAccount {
 	/**
 	 * This function reinstate the account.
 	 */
-	void reinstated() {
+	void reinstate() {
 		isSuspended = false;
 	}
 
@@ -247,6 +262,13 @@ abstract class BankAccount {
 	 */
 	boolean check(double amount) {
 		return (balance >= amount);
+	}
+
+	/**
+	 * This function provides the balance information of this account.
+	 */
+	void checkBalance() {
+		System.out.println("Account balance: " + balance);
 	}
 
 	/**
