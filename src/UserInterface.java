@@ -43,38 +43,50 @@ public class UserInterface {
 	 * Provide the UI of this program.
 	 */
 	private void init() {
-		System.out.println("================================================================");
-		System.out.println("=                        Banking System                        =");
-		System.out.println("================================================================");
-		System.out.println("=1.Open an account.                                            =");
-		System.out.println("=2.Deposit funds.                                              =");
-		System.out.println("=3.Withdraw funds.                                             =");
-		System.out.println("=4.Suspend an account.                                         =");
-		System.out.println("=5.Reinstate an account.                                       =");
-		System.out.println("=6.Close an account.                                           =");
-		System.out.println("=7.Exit.                                                       =");
-		System.out.println("================================================================");
+		System.out.println("======================================================");
+		System.out.println("=                   Banking System                   =");
+		System.out.println("======================================================");
+		System.out.println("=1.Open an account.                                  =");
+		System.out.println("=2.Check balances.                                   =");
+		System.out.println("=3.Deposit funds.                                    =");
+		System.out.println("=4.Withdraw funds.                                   =");
+		System.out.println("=5.Suspend an account.                               =");
+		System.out.println("=6.Reinstate an account.                             =");
+		System.out.println("=7.Close an account.                                 =");
+		System.out.println("=8.Pre-withdraw. (Saver account only.)               =");
+		System.out.println("=9.Set overdraft limit. (Current account only.)      =");
+		System.out.println("=0.Exit.                                             =");
+		System.out.println("======================================================");
 		System.out.println("Type your choice:");
 		switch (GetSafeInput.getInt(sc)) {
 			case 1:
 				openAccount();
 				break;
 			case 2:
-				deposit();
+				checkBalance();
 				break;
 			case 3:
-				withdraw();
+				deposit();
 				break;
 			case 4:
-				suspend();
+				withdraw();
 				break;
 			case 5:
-				reinstate();
+				suspend();
 				break;
 			case 6:
-				closeAccount();
+				reinstate();
 				break;
 			case 7:
+				closeAccount();
+				break;
+			case 8:
+				preWithdraw();
+				break;
+			case 9:
+				setOverdraftLimit();
+				break;
+			case 0:
 				System.out.println("Bye~");
 				System.exit(0);
 			default:
@@ -86,11 +98,14 @@ public class UserInterface {
 	 * This function provides the UI of the operation of opening account.
 	 */
 	private void openAccount() {
+		System.out.println("==============================");
+		System.out.println("=        Open Account        =");
+		System.out.println("==============================");
 		System.out.print("Name: ");
 		String name = GetSafeInput.getString(sc);
 		System.out.print("Address: ");
 		String address = GetSafeInput.getString(sc);
-		System.out.print("Birth: ");
+		System.out.print("Birth (e.g. 1996-02-29): ");
 		Calendar birth = GetSafeInput.getCalendar(sc);
 		Customer customer = new Customer(name, address, birth);
 		System.out.print("Initial balance: ");
@@ -110,7 +125,9 @@ label:
 					}
 					break label;
 				case 2:
-					if (myBank.openCurrentAccount(initBalance, customer) == null) {
+					System.out.print("Overdraft Limit: ");
+					Double overdraftLimit = GetSafeInput.getPositiveDouble(sc);
+					if (myBank.openCurrentAccount(initBalance, customer, overdraftLimit) == null) {
 						System.out.println("Please choose another account type:");
 						break;
 					}
@@ -128,18 +145,23 @@ label:
 					System.out.println("Input wrong, please retype:");
 			}
 		}
+
 	}
 
 	/**
-	 * This function provides the UI of the operation of depositing.
+	 * This function leads the user to login system.
+	 * If login successfully, returns the bank account.
+	 * If failed, return null.
+	 *
+	 * @return Bank account or null.
 	 */
-	private void deposit() {
+	private BankAccount checkLogin() {
 		System.out.print("Account no: ");
 		int no = GetSafeInput.getInt(sc);
 		BankAccount acc = myBank.getAccount(no);
 		if (acc == null) {
 			System.out.println("This account does not exist.");
-			return;
+			return null;
 		}
 		System.out.print("PIN: ");
 		String PIN = GetSafeInput.getString(sc);
@@ -147,27 +169,176 @@ label:
 			System.out.print("Wrong PIN! Please retype or type 'cancel' to cancel: ");
 			PIN = GetSafeInput.getString(sc);
 			if (PIN.equals("cancel"))
-				return;
+				System.out.println("Operation cancelled.");
+			return null;
+		}
+		if (acc.isSuspended()) {
+			System.out.println("This account is suspended.");
+			return null;
 		}
 		System.out.println("Logged in.");
-		System.out.print("Deposit amount: ");
-		double amount = GetSafeInput.getPositiveDouble(sc);
-		acc.deposit(amount);
+		return acc;
 	}
 
+	private void checkBalance() {
+		System.out.println("=========================");
+		System.out.println("=      Check Balance    =");
+		System.out.println("=========================");
+		BankAccount acc = checkLogin();
+		if (acc == null)
+			return;
+		acc.checkBalance();
+	}
+
+	/**
+	 * This function provides the UI of the operation of depositing.
+	 */
+	private void deposit() {
+		System.out.println("=========================");
+		System.out.println("=        Deposit        =");
+		System.out.println("=========================");
+		BankAccount acc = checkLogin();
+		if (acc == null)
+			return;
+		System.out.println("Deposit by Cash/Cheque?");
+		System.out.println("1.Cash.");
+		System.out.println("2.Cheque.");
+		System.out.println("3.Cancel.");
+label:
+		while (true) {
+			switch (GetSafeInput.getInt(sc)) {
+				case 1:
+					System.out.print("Deposit by cash amount: ");
+					double cashAmount = GetSafeInput.getPositiveDouble(sc);
+					acc.depositByCash(cashAmount);
+					break label;
+				case 2:
+					System.out.print("Deposit by cheque amount: ");
+					double chequeAmount = GetSafeInput.getPositiveDouble(sc);
+					acc.depositByCheque(chequeAmount);
+					break label;
+				case 3:
+					System.out.println("Operation cancelled.");
+					return;
+				default:
+					System.out.println("Input wrong, please retype:");
+			}
+		}
+	}
+
+	/**
+	 * This function provides the UI of the operation of withdrawing.
+	 */
 	private void withdraw() {
-
+		System.out.println("=========================");
+		System.out.println("=        Withdraw       =");
+		System.out.println("=========================");
+		BankAccount acc = checkLogin();
+		if (acc == null)
+			return;
+		System.out.print("Withdraw amount: ");
+		double amount = GetSafeInput.getPositiveDouble(sc);
+		acc.withdraw(amount);
 	}
 
+	/**
+	 * This function provides the UI of the operation of suspending.
+	 */
 	private void suspend() {
-
+		System.out.println("========================");
+		System.out.println("=        Suspend       =");
+		System.out.println("========================");
+		System.out.print("Account no: ");
+		int no = GetSafeInput.getInt(sc);
+		BankAccount acc = myBank.getAccount(no);
+		if (acc == null) {
+			System.out.println("This account does not exist.");
+			return;
+		}
+		if (acc.isSuspended()) {
+			System.out.println("This account already be suspended.");
+			System.out.println("Operation cancelled.");
+			return;
+		}
+		acc.suspend();
+		System.out.println(acc);
+		System.out.println("Suspend account successfully.");
 	}
 
+	/**
+	 * This function provides the UI of the operation of reinstating.
+	 */
 	private void reinstate() {
-
+		System.out.println("========================");
+		System.out.println("=        Reinstate     =");
+		System.out.println("========================");
+		System.out.print("Account no: ");
+		int no = GetSafeInput.getInt(sc);
+		BankAccount acc = myBank.getAccount(no);
+		if (acc == null) {
+			System.out.println("This account does not exist.");
+			return;
+		}
+		if (!acc.isSuspended()) {
+			System.out.println("This account is not suspended.");
+			System.out.println("Operation cancelled.");
+			return;
+		}
+		acc.reinstate();
+		System.out.println(acc);
+		System.out.println("Reinstate account successfully.");
 	}
 
+	/**
+	 * This function provides the UI of the operation of closing account.
+	 */
 	private void closeAccount() {
+		System.out.println("==============================");
+		System.out.println("=        Close Account       =");
+		System.out.println("==============================");
+		BankAccount acc = checkLogin();
+		if (acc == null)
+			return;
+		myBank.closeAccount(acc);
+	}
 
+	/**
+	 * This function provides the UI of the operation of pre-withdrawing.
+	 * Saver account only.
+	 */
+	private void preWithdraw() {
+		System.out.println("=============================");
+		System.out.println("=        Pre-withdraw       =");
+		System.out.println("=============================");
+		BankAccount acc = checkLogin();
+		if (acc == null)
+			return;
+		System.out.print("Pre-withdraw amount: ");
+		double amount = GetSafeInput.getPositiveDouble(sc);
+		acc.preWithdraw(amount);
+	}
+
+	/**
+	 * This function provides the UI of the operation of setting overdraft limit.
+	 * Current account only.
+	 */
+	private void setOverdraftLimit() {
+		System.out.println("=============================");
+		System.out.println("=    Set Overdraft Limit    =");
+		System.out.println("=============================");
+		System.out.print("Account no: ");
+		int no = GetSafeInput.getInt(sc);
+		BankAccount acc = myBank.getAccount(no);
+		if (acc == null) {
+			System.out.println("This account does not exist.");
+			return;
+		}
+		if (acc.isSuspended()) {
+			System.out.println("This account is suspended.");
+			System.out.println("Operation cancelled.");
+			return;
+		}
+		double overdraftLimit = GetSafeInput.getPositiveDouble(sc);
+		acc.setOverdraftLimit(overdraftLimit);
 	}
 }
