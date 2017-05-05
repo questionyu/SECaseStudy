@@ -20,8 +20,8 @@ class JuniorAccount extends BankAccount {
 	JuniorAccount(double initBalance, Customer customer) throws IllegalAgeException {
 		super(initBalance, customer);
 		Calendar rightNow = Calendar.getInstance();
+		rightNow.add(Calendar.YEAR, -ageLimit);
 		Calendar birth = customer.getBirth();
-		birth.add(Calendar.YEAR, ageLimit);
 		if (rightNow.after(birth))
 			throw new IllegalAgeException();
 	}

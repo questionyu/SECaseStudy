@@ -55,6 +55,8 @@ public class UserInterface {
 		System.out.println("=7.Close an account.                                 =");
 		System.out.println("=8.Pre-withdraw. (Saver account only.)               =");
 		System.out.println("=9.Set overdraft limit. (Current account only.)      =");
+		System.out.println("=10.Update all accounts.                             =");
+		System.out.println("=11.Clear all accounts' funds.                       =");
 		System.out.println("=0.Exit.                                             =");
 		System.out.println("======================================================");
 		System.out.println("Type your choice:");
@@ -86,7 +88,14 @@ public class UserInterface {
 			case 9:
 				setOverdraftLimit();
 				break;
+			case 10:
+				updateAccounts();
+				break;
+			case 11:
+				clearFunds();
+				break;
 			case 0:
+				myBank.saveBankAccounts();
 				System.out.println("Bye~");
 				System.exit(0);
 			default:
@@ -262,7 +271,6 @@ label:
 		}
 		acc.suspend();
 		System.out.println(acc);
-		System.out.println("Suspend account successfully.");
 	}
 
 	/**
@@ -286,7 +294,6 @@ label:
 		}
 		acc.reinstate();
 		System.out.println(acc);
-		System.out.println("Reinstate account successfully.");
 	}
 
 	/**
@@ -340,5 +347,15 @@ label:
 		}
 		double overdraftLimit = GetSafeInput.getPositiveDouble(sc);
 		acc.setOverdraftLimit(overdraftLimit);
+	}
+
+	private void updateAccounts() {
+		System.out.println("Bank is updating all accounts...");
+		myBank.update();
+	}
+
+	private void clearFunds() {
+		System.out.println("Bank is clearing all accounts's funds...");
+		myBank.clearFunds();
 	}
 }

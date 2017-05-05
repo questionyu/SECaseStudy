@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * Title        BankAccount.java
  * Description  This class defines a bank account.
  */
-abstract class BankAccount {
+abstract class BankAccount implements Serializable {
 	/**
 	 * The customer who has this account.
 	 */
@@ -245,6 +246,7 @@ abstract class BankAccount {
 	 */
 	void suspend() {
 		isSuspended = true;
+		System.out.println("Suspend account successfully.");
 	}
 
 	/**
@@ -252,6 +254,7 @@ abstract class BankAccount {
 	 */
 	void reinstate() {
 		isSuspended = false;
+		System.out.println("Reinstate account successfully.");
 	}
 
 	/**

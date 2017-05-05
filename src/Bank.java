@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,11 @@ class Bank {
 	/**
 	 * This ArrayList save all bank accounts.
 	 */
-	private ArrayList<BankAccount> bankAccounts = new ArrayList<>();
+	private ArrayList<BankAccount> bankAccounts;
+
+	Bank() {
+		this.bankAccounts = loadBankAccounts();
+	}
 
 	/**
 	 * This function returns an account whose account number equals to no.
@@ -53,7 +58,15 @@ class Bank {
 			}
 			bankAccounts.add(acc);
 			System.out.println("Open account successfully.");
-			System.out.println("Account no: " + acc.getNo() + ", PIN: " + acc.getPIN());
+			String accInformation = "Saver account no: " + acc.getNo() + ", PIN: " + acc.getPIN() + " " + customer + "\n";
+			System.out.print(accInformation);
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter("bankAccounts.txt", true));
+				writer.write(accInformation);
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return acc;
 		} catch (CreditHistoryException e) {
 			System.out.println("This user's credit history is bad. Can not open a new account.");
@@ -76,7 +89,15 @@ class Bank {
 			}
 			bankAccounts.add(acc);
 			System.out.println("Open account successfully.");
-			System.out.println("Account no: " + acc.getNo() + ", PIN: " + acc.getPIN());
+			String accInformation = "Junior account no: " + acc.getNo() + ", PIN: " + acc.getPIN() + " " + customer + "\n";
+			System.out.print(accInformation);
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter("bankAccounts.txt", true));
+				writer.write(accInformation);
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return acc;
 		} catch (CreditHistoryException e) {
 			System.out.println("This user's credit history is bad. Can not open a new account.");
@@ -114,7 +135,15 @@ class Bank {
 			}
 			bankAccounts.add(acc);
 			System.out.println("Open account successfully.");
-			System.out.println("Account no: " + acc.getNo() + ", PIN: " + acc.getPIN());
+			String accInformation = "Current account no: " + acc.getNo() + ", PIN: " + acc.getPIN() + " " + customer + "\n";
+			System.out.print(accInformation);
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter("bankAccounts.txt", true));
+				writer.write(accInformation);
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return acc;
 		} catch (CreditHistoryException e) {
 			System.out.println("This user's credit history is bad. Can not open a new account.");
@@ -140,15 +169,65 @@ class Bank {
 	}
 
 	/**
-	 * This function updates all account.
+	 * This function updates all accounts.
 	 */
 	void update() {
 		for (BankAccount acc : bankAccounts) {
-			acc.clearFunds();
 			if (acc.getBalance() < 0) {
 				System.out.println(acc.getName() + " is in overdraft, a letter is sent");
 			}
 		}
+		saveBankAccounts();
+		System.out.println("Update all accounts successfully.");
 	}
 
+	/**
+	 * This function clears all accounts' funds.
+	 */
+	void clearFunds() {
+		for (BankAccount acc : bankAccounts) {
+			acc.clearFunds();
+		}
+		saveBankAccounts();
+		System.out.println("Clear all accounts's funds successfully.");
+	}
+
+	/**
+	 * This function read bank accounts from file and save to an ArrayList, and return it.
+	 *
+	 * @return the ArrayList which contains all bank accounts.
+	 */
+	private ArrayList<BankAccount> loadBankAccounts() {
+		ArrayList<BankAccount> bankAccounts = new ArrayList<>();
+		try {
+			System.out.println("Loading...");
+			FileInputStream fileIn = new FileInputStream("bankAccounts.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			ArrayList<BankAccount> temp = (ArrayList<BankAccount>) in.readObject();
+			in.close();
+			fileIn.close();
+			bankAccounts = temp;
+			System.out.println("Load serialized data from bankAccounts.ser complete successfully.");
+		} catch (FileNotFoundException ignored) {
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return bankAccounts;
+	}
+
+	/**
+	 * This function save ArrayList of bank accounts to file.
+	 */
+	void saveBankAccounts() {
+		try {
+			FileOutputStream fileOut = new FileOutputStream("bankAccounts.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(bankAccounts);
+			out.close();
+			fileOut.close();
+			System.out.println("Serialized data is saved in bankAccounts.ser");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -46,6 +46,7 @@ class CurrentAccount extends BankAccount {
 	@Override
 	void setOverdraftLimit(double overdraftLimit) {
 		this.overdraftLimit = overdraftLimit;
+		System.out.println("Set overdraft limit to " + overdraftLimit + " successfully.");
 	}
 
 	/**

@@ -1,10 +1,12 @@
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
  * Title        Customer.java
  * Description  This class defines a customer.
  */
-class Customer {
+class Customer implements Serializable {
 	/**
 	 * The name of this customer.
 	 */
@@ -71,7 +73,7 @@ class Customer {
 		return "Customer{" +
 				"name='" + name + '\'' +
 				", address='" + address + '\'' +
-				", birth=" + birth +
+				", birth=" + (new SimpleDateFormat("yyyy-MM-dd")).format(birth.getTime()) +
 				'}';
 	}
 }
