@@ -118,7 +118,7 @@ public class UserInterface {
 		Calendar birth = GetSafeInput.getCalendar(sc);
 		Customer customer = new Customer(name, address, birth);
 		System.out.print("Initial balance: ");
-		int initBalance = GetSafeInput.getPositiveInt(sc);
+		double initBalance = GetSafeInput.getPositiveDouble(sc);
 		System.out.println("Which type account do you want to open?");
 		System.out.println("1.Saver account.");
 		System.out.println("2.Current account.");
