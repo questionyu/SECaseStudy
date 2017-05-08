@@ -177,7 +177,6 @@ class Bank {
 				System.out.println(acc.getName() + " is in overdraft, a letter is sent");
 			}
 		}
-		saveBankAccounts();
 		System.out.println("Update all accounts successfully.");
 	}
 

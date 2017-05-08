@@ -221,7 +221,7 @@ abstract class BankAccount implements Serializable {
 		}
 		if (amount <= 0) {
 			System.out.println("Amount must be more than 0.");
-			System.out.println("Depositing failed.");
+			System.out.println("Withdrawing failed.");
 			return;
 		}
 		if (check(amount)) {
