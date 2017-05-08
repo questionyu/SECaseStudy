@@ -1,17 +1,26 @@
+import java.util.Calendar;
+
 /**
  * Title        SaverAccount.java
  * Description This class defines a saver account.
  */
 class SaverAccount extends BankAccount {
 	/**
+	 * The limit day that user can withdraw the pre-withdrawal balance.
+	 */
+	private static int preWithdrawLimit = 7;
+	/**
 	 * The special balance of saver account.
 	 */
 	private double saverBalance;
-
 	/**
 	 * The pre-withdraw-amount of saver account.
 	 */
 	private double preWithdraw;
+	/**
+	 * The date that user can withdraw the balance.
+	 */
+	private Calendar preWithdrawDate;
 
 	/**
 	 * The constructor function of SaverAccount.
@@ -23,6 +32,7 @@ class SaverAccount extends BankAccount {
 		super(0, customer);
 		this.saverBalance = initBalance;
 		this.preWithdraw = 0;
+		this.preWithdrawDate = Calendar.getInstance();
 	}
 
 	/**
@@ -53,9 +63,15 @@ class SaverAccount extends BankAccount {
 			System.out.println("Account is suspended.");
 			return;
 		}
+		if (preWithdraw > 0) {
+			System.out.println("You already had a pre-withdraw. Can not pre-withdraw more.");
+			return;
+		}
 		if (saverCheck(amount)) {
 			saverBalance -= amount;
 			preWithdraw += amount;
+			preWithdrawDate = Calendar.getInstance();
+			preWithdrawDate.add(Calendar.DAY_OF_YEAR, preWithdrawLimit);
 			System.out.println("Pre-withdraw " + amount + " successfully.");
 		} else {
 			System.out.println("Pre-withdraw " + amount + " unsuccessfully. Do not have enough available funds.");
@@ -98,8 +114,10 @@ class SaverAccount extends BankAccount {
 	void clearFunds() {
 		saverBalance += getCheque();
 		setCheque(0);
-		addBalance(preWithdraw);
-		preWithdraw = 0;
+		if (preWithdrawDate.after(Calendar.getInstance())) {
+			addBalance(preWithdraw);
+			preWithdraw = 0;
+		}
 	}
 
 	/**
