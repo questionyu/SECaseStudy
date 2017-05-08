@@ -1,4 +1,4 @@
-Current account no: 91349999, PIN: 381931 Customer{name='Obama', address='Washington', birth=1950-01-01}
-Current account no: 63515312, PIN: 866592 Customer{name='Xi Jinping', address='Beijing', birth=1950-01-01}
-Saver account no: 68394115, PIN: 705162 Customer{name='Putin', address='Moscow', birth=1950-01-01}
-Junior account no: 14823965, PIN: 591240 Customer{name='Holly White', address='Albuquerque, New Mexico', birth=2010-01-01}
+Current account no: 99275011, PIN: 132465 Customer{name='Xi Jinping', address='Beijing', birth=1995-01-01}
+Current account no: 61398010, PIN: 854207 Customer{name='Obama', address='Washington', birth=1950-01-01}
+Saver account no: 50704274, PIN: 164601 Customer{name='Putin', address='Moscow', birth=1950-01-01}
+Junior account no: 60881321, PIN: 574487 Customer{name='Holly White', address='Albequerque', birth=2008-02-29}
