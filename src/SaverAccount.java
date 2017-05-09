@@ -8,15 +8,18 @@ class SaverAccount extends BankAccount {
 	/**
 	 * The limit day that user can withdraw the pre-withdrawal balance.
 	 */
-	private static int preWithdrawLimit = 7;
+	private static final int preWithdrawLimit = 7;
+
 	/**
 	 * The special balance of saver account.
 	 */
 	private double saverBalance;
+
 	/**
 	 * The pre-withdraw-amount of saver account.
 	 */
 	private double preWithdraw;
+
 	/**
 	 * The date that user can withdraw the balance.
 	 */
