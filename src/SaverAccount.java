@@ -139,6 +139,6 @@ class SaverAccount extends BankAccount {
 				"    saverBalance=" + saverBalance + "\n" +
 				"    preWithdraw=" + preWithdraw + "\n" +
 				"    isSuspended=" + isSuspended() + "\n" +
-				'}';
+				"}";
 	}
 }
